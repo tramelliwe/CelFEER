@@ -23,7 +23,7 @@ if __name__ == "__main__":
     readfile = sys.argv[2]
 
     reads = []
-    name = os.path.basename(readfile).split('.')[0].split('_')[2]
+    name = os.path.basename(readfile).split('.')[0]
     outfile = out_dir + '/' + name + '.bed'
     with open(readfile, 'r') as f:
         meth_count = 0
@@ -52,5 +52,7 @@ if __name__ == "__main__":
                 end = pos
             if meth == "+":
                 meth_count += 1
+    if total_count >= 3: # to process the last read after closing the readfile
+        add_to_list(reads, chrom, start, end, meth_count / total_count)
     with open(outfile, 'w') as out:
         out.writelines(reads)
